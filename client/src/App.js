@@ -22,6 +22,8 @@ import FeedbackManagement from "./views/admin/FeedbackManagement";
 import ForgotPassword from "./views/auth/ForgotPassword";
 import ResetPassword from "./views/auth/ResetPassword";
 import TicketManagement from "./views/admin/ticket/TicketManagement";
+import PaymentSuccess from "./views/ticket/PaymentSuccess";
+import PaymentFailure from "./views/ticket/PaymentFailure";
 
 const App = () => {
   return (
@@ -43,6 +45,8 @@ const App = () => {
 
           <Route element={<ProtectedRoute allowedRoles={[USER]} />}>
             <Route path="/book" element={<TicketBookingScreen />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/payment-failure" element={<PaymentFailure />} />
             <Route path="/my-bookings" element={<Bookings />} />
             <Route path="/profile" element={<Profile />} />
           </Route>

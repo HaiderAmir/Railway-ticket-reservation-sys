@@ -2,7 +2,7 @@ const Train = require("../models/Train");
 
 // Add a new train
 const addTrain = async (req, res) => {
-  const { trainID, name, route, timings, capacity } = req.body;
+  const { trainID, name, route, timings, capacity, pricePerSeat } = req.body;
   try {
     const trainExists = await Train.findOne({ trainID });
     if (trainExists)
@@ -14,6 +14,7 @@ const addTrain = async (req, res) => {
       route,
       timings,
       capacity,
+      pricePerSeat,
     });
     res.status(201).json(train);
   } catch (error) {

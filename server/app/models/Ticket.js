@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { BOOKED, CANCELLED, CONFIRMED } = require("../constants");
+const { BOOKED, CANCELLED } = require("../constants");
 
 const ticketSchema = new mongoose.Schema(
   {
@@ -11,9 +11,10 @@ const ticketSchema = new mongoose.Schema(
     },
     date: { type: Date, required: true },
     seatNumber: { type: Number, required: true },
-    status: { type: String, enum: [BOOKED,  CONFIRMED,
-      CANCELLED], default: BOOKED },
+    status: { type: String, enum: [BOOKED, CANCELLED], default: BOOKED },
     qrCode: { type: String },
+    paymentIntent: { type: String },
+    amount: { type: Number, required: true },
   },
   { timestamps: true }
 );

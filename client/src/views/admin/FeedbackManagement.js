@@ -11,6 +11,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Box,
 } from "@mui/material";
 import axios from "axios";
 import { RESOLVED } from "../../constants";
@@ -95,7 +96,16 @@ const FeedbackManagement = () => {
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "900px", margin: "auto" }}>
+    <Box
+      style={{
+        maxWidth: "900px",
+        margin: "50px auto",
+        padding: "20px",
+        borderRadius: "8px",
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "white",
+      }}
+    >
       <h1>Feedback Management</h1>
 
       <TextField
@@ -182,7 +192,7 @@ const FeedbackManagement = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Box>
   );
 };
 

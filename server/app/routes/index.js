@@ -4,6 +4,7 @@ module.exports = (app) => {
   });
   app.use("/api/auth", require("./authRoutes"));
   app.use("/api/trains", require("./trainRoutes"));
+  app.use("/api/payments", require("./paymentRoutes"));
   app.use("/api/tickets", require("./ticketRoutes"));
   app.use("/api/admin", require("./adminRoutes"));
   app.use("/api/routes", require("./routeRoutes"));

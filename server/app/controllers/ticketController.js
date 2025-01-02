@@ -1,37 +1,54 @@
 const QRCode = require("qrcode");
 const Ticket = require("../models/Ticket");
 const { CANCELLED } = require("../constants");
+const Stripe = require("stripe");
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // Book a ticket
 const bookTicket = async (req, res) => {
-  const { trainId, date, seatNumber } = req.body;
+  const { sessionId } = req.body;
 
   try {
-    // Check if seat is available
+    // Retrieve the session details from Stripe
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+    if (session.payment_status !== "paid") {
+      return res.status(400).json({ message: "Payment not completed" });
+    }
+
+    const { trainId, date, seatNumber, userId, amount } = session.metadata;
+
     const existingTicket = await Ticket.findOne({
       train: trainId,
+      user: userId,
       date,
       seatNumber,
+      amount,
     });
-    if (existingTicket)
-      return res.status(400).json({ message: "Seat is already booked" });
 
-    // Generate QR Code
-    const qrCodeData = `TrainID: ${trainId}, Date: ${date}, Seat: ${seatNumber}`;
+    if (existingTicket) {
+      return res.status(400).json({ message: "Seat is already booked" });
+    }
+
+    const qrCodeData = `TrainId: ${trainId}, Date: ${date}, Seat: ${seatNumber}`;
     const qrCode = await QRCode.toDataURL(qrCodeData);
 
-    // Create and save ticket
     const ticket = await Ticket.create({
-      user: req.user._id,
+      user: userId,
       train: trainId,
       date,
       seatNumber,
+      amount,
       qrCode,
+      paymentIntent: session.payment_intent,
     });
 
-    res.status(201).json(ticket);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    const populatedTicket = await Ticket.findById(ticket._id).populate("train");
+
+    res.status(201).json({ ticket: populatedTicket });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 

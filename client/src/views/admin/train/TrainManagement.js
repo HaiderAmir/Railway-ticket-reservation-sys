@@ -6,6 +6,7 @@ import {
   CircularProgress,
   Snackbar,
   Alert,
+  Container,
 } from "@mui/material";
 
 const TrainManagement = () => {
@@ -16,6 +17,7 @@ const TrainManagement = () => {
     route: { start: "", end: "", stops: [] },
     timings: { departure: "", arrival: "" },
     capacity: 0,
+    pricePerSeat: 0,
   });
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({
@@ -87,6 +89,7 @@ const TrainManagement = () => {
         route: { start: "", end: "", stops: [] },
         timings: { departure: "", arrival: "" },
         capacity: 0,
+        pricePerSeat: 0,
       });
       setEditing(false);
       setSelectedTrainId(null);
@@ -148,13 +151,25 @@ const TrainManagement = () => {
         arrival: train.timings.arrival,
       },
       capacity: train.capacity,
+      pricePerSeat: train.pricePerSeat,
     });
     setEditing(true);
     setSelectedTrainId(train._id);
   };
 
+  console.log(form);
+
   return (
-    <div style={{ padding: "20px", maxWidth: "900px", margin: "auto" }}>
+    <Container
+      style={{
+        maxWidth: "900px",
+        margin: "50px auto",
+        padding: "20px",
+        borderRadius: "8px",
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "white",
+      }}
+    >
       <h1>Train Management</h1>
       <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
         <TextField
@@ -256,6 +271,16 @@ const TrainManagement = () => {
           required
           style={{ marginBottom: "10px" }}
         />
+        <TextField
+          label="Price Per Seat"
+          variant="outlined"
+          fullWidth
+          type="number"
+          value={form.pricePerSeat}
+          onChange={(e) => setForm({ ...form, pricePerSeat: e.target.value })}
+          required
+          style={{ marginBottom: "10px" }}
+        />
         <Button type="submit" variant="contained" color="primary" fullWidth>
           {loading ? (
             <CircularProgress size={24} />
@@ -307,7 +332,7 @@ const TrainManagement = () => {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </div>
+    </Container>
   );
 };
 

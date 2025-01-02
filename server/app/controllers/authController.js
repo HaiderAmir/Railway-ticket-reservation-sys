@@ -80,8 +80,6 @@ const forgotPassword = async (req, res) => {
       return res.status(404).json({ message: "User not found." });
     }
 
-    console.log(user);
-
     // Generate a reset token
     const resetToken = generateToken(user.id, user.role);
     const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
@@ -90,8 +88,6 @@ const forgotPassword = async (req, res) => {
     user.resetToken = resetToken;
     user.resetTokenExpiry = Date.now() + 3600000; // 1 hour
     await user.save();
-
-    console.log(resetLink);
 
     // Send email
     const transporter = nodemailer.createTransport({

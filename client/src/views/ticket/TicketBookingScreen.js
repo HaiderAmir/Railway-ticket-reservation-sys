@@ -18,7 +18,7 @@ const TicketBookingScreen = () => {
   const [date, setDate] = useState("");
   const [seatNumber, setSeatNumber] = useState("");
   const [message, setMessage] = useState("");
-  const [qrCode, setQRCode] = useState("");
+  const [price, setPrice] = useState(0);
   const [error, setError] = useState("");
 
   const fetchTrains = async () => {
@@ -37,6 +37,12 @@ const TicketBookingScreen = () => {
     }
   };
 
+  const handleTrainSelect = (trainId) => {
+    setSelectedTrain(trainId);
+    const train = trains.find((t) => t._id === trainId);
+    setPrice(train?.pricePerSeat || 0);
+  };
+
   useEffect(() => {
     fetchTrains();
   }, []);
@@ -45,7 +51,7 @@ const TicketBookingScreen = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/tickets`,
+        `${process.env.REACT_APP_BACKEND_URL}/payments/create-session`,
         {
           trainId: selectedTrain,
           date,
@@ -58,10 +64,8 @@ const TicketBookingScreen = () => {
         }
       );
 
-      setMessage(`Ticket booked successfully!`);
-      setQRCode(data.qrCode);
+      window.location.href = data.url;
     } catch (error) {
-      setQRCode("");
       setMessage(error.response.data.message || "Error booking ticket");
     }
   };
@@ -69,10 +73,12 @@ const TicketBookingScreen = () => {
   return (
     <Box
       sx={{
+        maxWidth: "900px",
+        margin: "50px auto",
         padding: "20px",
-        maxWidth: "600px",
-        margin: "0 auto",
-        backgroundColor: "#fffff",
+        borderRadius: "8px",
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "white",
       }}
     >
       <Typography
@@ -87,7 +93,7 @@ const TicketBookingScreen = () => {
           <InputLabel>Train</InputLabel>
           <Select
             value={selectedTrain}
-            onChange={(e) => setSelectedTrain(e.target.value)}
+            onChange={(e) => handleTrainSelect(e.target.value)}
             label="Train"
             fullWidth
           >
@@ -102,6 +108,12 @@ const TicketBookingScreen = () => {
             <FormHelperText error>Select a train</FormHelperText>
           )}
         </FormControl>
+
+        {selectedTrain && (
+          <Typography variant="body2" sx={{ marginBottom: "10px" }}>
+            Price per seat: Rs {price}
+          </Typography>
+        )}
 
         <TextField
           label="Date"
@@ -125,7 +137,7 @@ const TicketBookingScreen = () => {
         />
 
         <Button type="submit" variant="contained" color="primary" fullWidth>
-          Book Ticket
+          Proceed to Payment
         </Button>
       </form>
 
@@ -137,20 +149,6 @@ const TicketBookingScreen = () => {
           >
             {message}
           </Typography>
-          {qrCode && (
-            <Typography variant="body2" color="textSecondary">
-              QR Code:
-              <img
-                src={qrCode}
-                alt="QR Code"
-                style={{
-                  marginTop: "10px",
-                  width: "100px",
-                  height: "100px",
-                }}
-              />
-            </Typography>
-          )}
         </>
       )}
       {error && (

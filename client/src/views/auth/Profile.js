@@ -60,7 +60,16 @@ const Profile = () => {
   };
 
   return (
-    <Box sx={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
+    <Box
+      sx={{
+        maxWidth: "900px",
+        margin: "50px auto",
+        padding: "20px",
+        borderRadius: "8px",
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "white",
+      }}
+    >
       <Typography variant="h4" sx={{ marginBottom: "20px" }}>
         Profile
       </Typography>

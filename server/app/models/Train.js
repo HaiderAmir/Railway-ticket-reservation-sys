@@ -13,6 +13,7 @@ const trainSchema = new mongoose.Schema({
     arrival: { type: String, required: true },
   },
   capacity: { type: Number, required: true },
+  pricePerSeat: { type: Number, required: true },
 });
 
 module.exports = mongoose.model("Train", trainSchema);

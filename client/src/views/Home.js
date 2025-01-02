@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Container,
   Typography,
   Button,
   Grid,
@@ -10,6 +9,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Box,
 } from "@mui/material";
 import { ADMIN, USER } from "../constants";
 import { Link } from "react-router-dom";
@@ -34,7 +34,16 @@ const Home = () => {
   }, []);
 
   return (
-    <Container maxWidth="lg" style={{ marginTop: "20px" }}>
+    <Box
+      sx={{
+        maxWidth: "900px",
+        margin: "50px auto",
+        padding: "20px",
+        borderRadius: "8px",
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "white",
+      }}
+    >
       <Paper elevation={3} style={{ padding: "20px", textAlign: "center" }}>
         <Typography
           variant="h4"
@@ -185,7 +194,7 @@ const Home = () => {
           </Typography>
         )}
       </>
-    </Container>
+    </Box>
   );
 };
 

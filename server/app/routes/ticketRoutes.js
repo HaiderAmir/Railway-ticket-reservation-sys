@@ -10,7 +10,7 @@ const {
 const { protect, user, admin } = require("../middlewares/authMiddleware");
 const router = express.Router();
 
-router.post("/", protect, user, bookTicket);
+router.post("/confirm-payment", protect, user, bookTicket);
 router.delete("/:id", protect, user, cancelTicket);
 router.get("/", protect, user, getUserTickets);
 router.put("/:id", protect, admin, changeTicketStatus);

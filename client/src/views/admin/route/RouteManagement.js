@@ -16,6 +16,7 @@ import {
   Table,
   TableRow,
   TableCell,
+  Container,
 } from "@mui/material";
 
 const RouteManagement = () => {
@@ -255,7 +256,16 @@ const RouteManagement = () => {
   }, []);
 
   return (
-    <div style={{ padding: "20px", maxWidth: "900px", margin: "auto" }}>
+    <Container
+      style={{
+        maxWidth: "900px",
+        margin: "50px auto",
+        padding: "20px",
+        borderRadius: "8px",
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "white",
+      }}
+    >
       <h1>Route Management</h1>
 
       <div style={{ marginBottom: "20px" }}>
@@ -438,7 +448,7 @@ const RouteManagement = () => {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </div>
+    </Container>
   );
 };
 

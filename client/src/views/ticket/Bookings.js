@@ -52,7 +52,16 @@ const Bookings = () => {
   }, []);
 
   return (
-    <Box sx={{ padding: "20px", maxWidth: "1000px", margin: "0 auto" }}>
+    <Box
+      sx={{
+        maxWidth: "900px",
+        margin: "50px auto",
+        padding: "20px",
+        borderRadius: "8px",
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "white",
+      }}
+    >
       <Typography variant="h4" sx={{ marginBottom: "20px" }}>
         Your Bookings
       </Typography>
@@ -66,7 +75,7 @@ const Bookings = () => {
       <Grid container spacing={1}>
         {bookings.length > 0 ? (
           bookings.map((booking) => (
-            <Grid item xs={12} sm={12} md={6} lg={4} key={booking._id}>
+            <Grid item xs={12} sm={6} md={4} lg={4} key={booking._id}>
               <Card
                 sx={{
                   display: "flex",

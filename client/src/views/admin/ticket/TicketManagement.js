@@ -80,7 +80,16 @@ const TicketManagement = () => {
   };
 
   return (
-    <Container>
+    <Container
+      style={{
+        maxWidth: "900px",
+        margin: "50px auto",
+        padding: "20px",
+        borderRadius: "8px",
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "white",
+      }}
+    >
       <Typography variant="h5" style={{ marginBottom: "20px" }}>
         Booking Management
       </Typography>
@@ -94,6 +103,7 @@ const TicketManagement = () => {
               <TableCell>Train</TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Seat Number</TableCell>
+              <TableCell>Amount</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
@@ -107,6 +117,7 @@ const TicketManagement = () => {
                   {new Date(ticket.date).toLocaleDateString()}
                 </TableCell>
                 <TableCell>{ticket.seatNumber}</TableCell>
+                <TableCell>{ticket.amount}</TableCell>
                 <TableCell>
                   <Select
                     value={ticket.status}
