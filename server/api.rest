@@ -1,0 +1,277 @@
+@baseUrl = http://localhost:5000/api
+
+#########################################################
+### ✅ SERVER STATUS
+#########################################################
+GET {{baseUrl}}/status
+
+#########################################################
+### 🔐 AUTHENTICATION ROUTES
+#########################################################
+
+# Register a New User
+POST {{baseUrl}}/auth/signup
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "Password123",
+  "role": "USER"
+}
+
+###
+
+# Login User
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "Password123"
+}
+
+###
+
+# Forgot Password
+POST {{baseUrl}}/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "john@example.com"
+}
+
+###
+
+# Reset Password
+POST {{baseUrl}}/auth/reset-password/<token>
+Content-Type: application/json
+
+{
+  "password": "NewPassword123"
+}
+
+###
+
+# Get My Profile
+GET {{baseUrl}}/auth/me
+Authorization: Bearer <your_token_here>
+
+###
+
+# Update My Profile
+PUT {{baseUrl}}/auth/update
+Authorization: Bearer <your_token_here>
+Content-Type: application/json
+
+{
+  "name": "Updated Name",
+  "phone": "0123456789"
+}
+
+#########################################################
+### 🚂 TRAIN ROUTES
+#########################################################
+
+# Get All Trains
+GET {{baseUrl}}/trains
+Authorization: Bearer <your_token_here>
+
+###
+
+# Add Train (Admin)
+POST {{baseUrl}}/trains
+Authorization: Bearer <your_token_here>
+Content-Type: application/json
+
+{
+  "trainId": "<trainId>",
+  "name": "Green Line",
+  "route": "City A - City B",
+  "timings": "09:00-11:00",
+  "capacity": 300,
+  "pricePerSeat": 2000
+}
+
+###
+
+# Update Train (Admin)
+PUT {{baseUrl}}/trains/<train_id>
+Authorization: Bearer <your_token_here>
+Content-Type: application/json
+
+{
+  "name": "Updated Name",
+  "capacity": 400
+}
+
+###
+
+# Delete Train (Admin)
+DELETE {{baseUrl}}/trains/<train_id>
+Authorization: Bearer <your_token_here>
+
+#########################################################
+### 💳 PAYMENT ROUTES
+#########################################################
+
+# Create Payment Session (User)
+POST {{baseUrl}}/payments/create-session
+Authorization: Bearer <your_token_here>
+Content-Type: application/json
+
+{
+  "trainId": "<train_id>",
+  "date": "<date>",
+  "seatNumber": 2
+}
+
+#########################################################
+### 🎫 TICKET ROUTES
+#########################################################
+
+# Book Ticket (User)
+POST {{baseUrl}}/tickets/confirm-payment
+Authorization: Bearer <your_token_here>
+Content-Type: application/json
+
+{
+  "sessionId": "123"
+}
+
+###
+
+# Cancel Ticket (User)
+DELETE {{baseUrl}}/tickets/<ticket_id>
+Authorization: Bearer <your_token_here>
+
+###
+
+# Get My Tickets (User)
+GET {{baseUrl}}/tickets
+Authorization: Bearer <your_token_here>
+
+###
+
+# Change Ticket Status (Admin)
+PUT {{baseUrl}}/tickets/<ticket_id>
+Authorization: Bearer <your_token_here>
+Content-Type: application/json
+
+{
+  "status": "BOOKED"
+}
+
+###
+
+# Get All Tickets (Admin)
+GET {{baseUrl}}/tickets/all
+Authorization: Bearer <your_token_here>
+
+###
+
+# Delete Ticket (Admin)
+DELETE {{baseUrl}}/tickets/delete/<ticket_id>
+Authorization: Bearer <your_token_here>
+
+#########################################################
+### 🧭 ROUTE MANAGEMENT
+#########################################################
+
+# Get All Routes
+GET {{baseUrl}}/routes
+
+###
+
+# Add Route (Admin)
+POST {{baseUrl}}/routes
+Authorization: Bearer <your_token_here>
+Content-Type: application/json
+
+{
+  "trainId": "<trainId>",
+  "routeName": "Lahore-Islamabad",
+  "totalDistance": 1234,
+  "stops": ["Gujranwala", "Rawalpindi"]
+}
+
+###
+
+# Update Route (Admin)
+PUT {{baseUrl}}/routes/<route_id>
+Authorization: Bearer <your_token_here>
+Content-Type: application/json
+
+{
+  "active": false
+}
+
+###
+
+# Delete Route (Admin)
+DELETE {{baseUrl}}/routes/<route_id>
+Authorization: Bearer <your_token_here>
+
+#########################################################
+### 📢 FEEDBACK ROUTES
+#########################################################
+
+# Add Feedback 
+POST {{baseUrl}}/feedbacks
+Content-Type: application/json
+
+{
+  "user": "Ali",
+  "subject":"Booking",
+  "message": "Great booking experience!",
+  "rating": 4
+}
+
+###
+
+# Get All Feedbacks (Admin)
+GET {{baseUrl}}/feedbacks
+Authorization: Bearer <your_token_here>
+
+###
+
+# Get Feedback by ID (Admin)
+GET {{baseUrl}}/feedbacks/<feedback_id>
+Authorization: Bearer <your_token_here>
+
+###
+
+# Update Feedback (Admin)
+PUT {{baseUrl}}/feedbacks/<feedback_id>
+Authorization: Bearer <your_token_here>
+Content-Type: application/json
+
+{
+  "status": "RESOLVED"
+}
+
+###
+
+# Delete Feedback (Admin)
+DELETE {{baseUrl}}/feedbacks/<feedback_id>
+Authorization: Bearer <your_token_here>
+
+#########################################################
+### 🛠️ ADMIN ROUTES
+#########################################################
+
+# Get Analytics (Admin)
+GET {{baseUrl}}/admin/analytics
+Authorization: Bearer <your_token_here>
+
+###
+
+# Get Reports (Admin)
+GET {{baseUrl}}/admin/reports
+Authorization: Bearer <your_token_here>
+
+#########################################################
+### ❌ Invalid Route (404 Test)
+#########################################################
+
+GET {{baseUrl}}/something-invalid
